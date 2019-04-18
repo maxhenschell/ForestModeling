@@ -8,12 +8,17 @@ library(BAMMtools)
 require(openxlsx)
 require(janitor)
 detach()
+
+FP = 'ADK'
+
 rootDir = 'H:/GIS_data/ForestModeling/'
-RDdir = 'W:/Projects/Lands&Forests/Forest Preserves/SSP/adk/SecondRun_rdata'
+if(DP == 'ADK'){RDdir = 'W:/Projects/Lands&Forests/Forest Preserves/SSP/adk/SecondRun_rdata'}else{
+  RDdir = 'W:/Projects/Lands&Forests/Forest Preserves/SSP/cat/SecondRun_rdata'
+}
 RDfiles = data.frame(file = unlist(list.files(RDdir, pattern = '*5_fold*')))
 spp = separate(RDfiles,file , c("Species", NA),sep = '_', extra = "drop") %>% separate(Species, c("Species", NA),sep = 'id', extra = "drop")
 spp = as.vector(spp[,1]) ##NOTE CHANGED
-FP = 'ADK'; FPdir = paste0(rootDir,FP)
+FPdir = paste0(rootDir,FP)
 rasDir = paste0(FPdir,'/models')
 
 #Con in R
@@ -56,7 +61,7 @@ for(sp in spp){
   #plot(NHPwater)
   NHPbin = Con(rasNHP>cut, 1,0)
   NHPbin = Con(is.na(water), NHPbin,0)
-  plot(NHPbin)
+  #plot(NHPbin)
   
   #
   #reclassify FS raster 
